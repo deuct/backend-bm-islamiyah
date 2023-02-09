@@ -262,7 +262,7 @@ export const getSaldo = async (req, res) => {
     norekSplit = norekSplit.toString();
 
     const nasabah = await db.query(
-      `SELECT nb.norek, nb.nama_lengkap, nb.kelas, jr.nama_jurusan, tr.current_saldo AS saldo FROM nasabah nb INNER JOIN transaksi tr ON tr.norek = nb.norek INNER JOIN jurusan jr ON jr.id = nb.kode_jurusan WHERE nb.norek IN (${norekSplit}) GROUP BY nb.norek ORDER BY tr.createdAt DESC`,
+      `SELECT nb.norek, nb.nama_lengkap, nb.kelas, jr.nama_jurusan, tr.current_saldo AS saldo FROM nasabah nb INNER JOIN (SELECT  DISTINCT norek, createdAt, current_saldo FROM transaksi) tr ON tr.norek = nb.norek INNER JOIN jurusan jr ON jr.id = nb.kode_jurusan WHERE nb.norek IN (${norekSplit}) GROUP BY nb.norek ORDER BY tr.createdAt`,
       { type: QueryTypes.SELECT }
     );
 
