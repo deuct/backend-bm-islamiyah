@@ -1,3 +1,4 @@
 # ignore the file differences between production and development
-/.env
+.env
 /helper/helperAll.js
+node_modules
