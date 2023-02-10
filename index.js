@@ -10,6 +10,7 @@ import routerJurusan from "./routes/JurusanRoutes.js";
 import routerTeller from "./routes/TellerRoutes.js";
 import routerTransaksi from "./routes/TransaksiRoutes.js";
 import routerReport from "./routes/ReportRoutes.js";
+import routerSetting from "./routes/SettingRoutes.js";
 
 const { helperAllVal } = helperAll();
 
@@ -20,9 +21,10 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: "https://smkislamiyahciputattangsel.sch.id",
+    origin: helperAllVal.origin,
   })
 );
+
 app.use(cookieParser());
 app.use(express.json());
 
@@ -32,6 +34,7 @@ app.use(routerJurusan);
 app.use(routerTeller);
 app.use(routerTransaksi);
 app.use(routerReport);
+app.use(routerSetting);
 
 app.use("/files/images", express.static("./files/images"));
 

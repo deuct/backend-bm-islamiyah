@@ -7,20 +7,24 @@ import {
   imageUpload,
 } from "../controllers/SystemSettingController.js";
 
-const routerReport = express.Router();
+const routerSetting = express.Router();
 
-routerReport.post(
+routerSetting.post(
   "/setting/master-data/homedate/update",
   verifyToken,
   setHomeDate
 );
-routerReport.get("/setting/master-data/homedate/all", verifyToken, getHomeDate);
-routerReport.post(
+routerSetting.get(
+  "/setting/master-data/homedate/all",
+  verifyToken,
+  getHomeDate
+);
+routerSetting.post(
   "/setting/system/logo/update",
   verifyToken,
   imageUpload.array("images"),
   changeCompanyLogo
 );
-routerReport.get("/setting/system/logo", verifyToken, getCompanyLogo);
+routerSetting.get("/setting/system/logo", verifyToken, getCompanyLogo);
 
-export default routerReport;
+export default routerSetting;
