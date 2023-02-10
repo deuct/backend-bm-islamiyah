@@ -13,6 +13,28 @@ import {
 } from "../controllers/UserController.js";
 import { refreshToken } from "../controllers/RefreshToken.js";
 import {
+  addNasabah,
+  getNasabahListing,
+  getNasabahById,
+  getNomorRekening,
+  getSaldo,
+  updateNasabah,
+  // addMobileUser,
+  // getMobileUserId,
+  // getMobileUserListing,
+  // getMobileUserById,
+  // updateMobileUser,
+  // deleteMobileUser,
+  deleteNasabah,
+  getCountNasabah,
+  getCountSaldo,
+  getWebUserListing,
+  getWebUserById,
+  addWebUser,
+  deleteWebUser,
+  resetPasswordWebUser,
+} from "../controllers/NasabahController.js";
+import {
   addTeller,
   deleteTeller,
   getTeller,
