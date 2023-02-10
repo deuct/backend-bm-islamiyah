@@ -66,9 +66,9 @@ export const login = async (req, res) => {
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: 1 * 60 * 60 * 1000, // Hour * Minute * Second * 1000
-        // secure: true (for https use)
+        secure: true, // (for https use)
         // signed: true,
-        secure: false,
+        // secure: false,
         credentials: "include",
         // sameSite: "None",
       });
@@ -76,7 +76,7 @@ export const login = async (req, res) => {
       res.cookie("userRole", userRole, {
         httpOnly: true,
         maxAge: 1 * 60 * 60 * 1000,
-        secure: false,
+        secure: true,
         // signed: true,
         credentials: "include",
         // sameSite: "None",
@@ -85,7 +85,7 @@ export const login = async (req, res) => {
       res.cookie("username", userName, {
         httpOnly: true,
         maxAge: 1 * 60 * 60 * 1000,
-        secure: false,
+        secure: true,
         // signed: true,
         credentials: "include",
         // sameSite: "None",
