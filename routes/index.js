@@ -1,8 +1,6 @@
 import express from "express";
-import multer from "multer";
 
 import { verifyToken } from "../middleware/VerifyToken.js";
-import { getAdminById } from "../controllers/AdminController.js";
 import {
   changePassword,
   getUserById,
@@ -14,28 +12,6 @@ import {
   updateUser,
 } from "../controllers/UserController.js";
 import { refreshToken } from "../controllers/RefreshToken.js";
-import {
-  addNasabah,
-  getNasabahListing,
-  getNasabahById,
-  getNomorRekening,
-  getSaldo,
-  updateNasabah,
-  // addMobileUser,
-  // getMobileUserId,
-  // getMobileUserListing,
-  // getMobileUserById,
-  // updateMobileUser,
-  // deleteMobileUser,
-  deleteNasabah,
-  getCountNasabah,
-  getCountSaldo,
-  getWebUserListing,
-  getWebUserById,
-  addWebUser,
-  deleteWebUser,
-  resetPasswordWebUser,
-} from "../controllers/NasabahController.js";
 import {
   addTeller,
   deleteTeller,
@@ -92,26 +68,6 @@ router.post(
   profilePictUpload.array("profilePict"),
   updateUser
 );
-
-router.post("/nasabah/add", verifyToken, addNasabah);
-router.post("/nasabah/update", verifyToken, updateNasabah);
-router.post("/nasabah/delete", verifyToken, deleteNasabah);
-router.post("/nasabah/saldo", verifyToken, getSaldo);
-router.post("/nasabah/total-nasabah", verifyToken, getCountNasabah);
-router.post("/nasabah/total-saldo", verifyToken, getCountSaldo);
-router.get("/nasabah/newid", verifyToken, getNomorRekening);
-router.get("/nasabah/listing", verifyToken, getNasabahListing);
-router.get("/nasabah/one/:norek", verifyToken, getNasabahById);
-
-router.post("/nasabah/webuser/add", verifyToken, addWebUser);
-router.post(
-  "/nasabah/webuser/resetpassword",
-  verifyToken,
-  resetPasswordWebUser
-);
-router.post("/nasabah/webuser/delete", verifyToken, deleteWebUser);
-router.get("/nasabah/webuser/listing", verifyToken, getWebUserListing);
-router.get("/nasabah/webuser/one", verifyToken, getWebUserById);
 
 router.post("/jurusan/add", verifyToken, addJurusan);
 router.get("/jurusan/listing", verifyToken, getJurusanListing);

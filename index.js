@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import router from "./routes/index.js";
+import routerNasabah from "./routes/NasabahRoutes.js";
 
 import helperAll from "./helper/helperAll.js";
 
@@ -21,7 +22,9 @@ app.use(
 );
 app.use(cookieParser());
 app.use(express.json());
+
 app.use(router);
+app.use(routerNasabah);
 
 app.use("/files/images", express.static("./files/images"));
 
