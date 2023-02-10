@@ -69,8 +69,11 @@ import {
   getJurusanListing,
 } from "../controllers/JurusanController.js";
 import { getJenisKelamin } from "../controllers/JKController.js";
+import { testing } from "../controllers/TestingController.js";
 
 const router = express.Router();
+
+router.get("/", testing);
 
 router.post("/login", login);
 router.delete("/logout/", logout);
