@@ -1,4 +1,5 @@
 # ignore the file differences between production and development
 .env
 helper/helperAll.js
+config/Database.js
 node_modules/
