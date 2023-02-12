@@ -6,7 +6,7 @@ import { QueryTypes } from "sequelize";
 import multer from "multer";
 import fs from "fs";
 
-import helperAll from "../helper/helperAll.js";
+import helperAll from "../helper/HelperAll.js";
 
 const { helperAllVal } = helperAll();
 

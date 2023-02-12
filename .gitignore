@@ -1,7 +1,7 @@
 # ignore the file differences between production and development
 .env
 
-/helper/helperAll.js
-/config/Database.js
 /node_modules/
 /controllers/UserController.js
+/helper/HelperAll.js
+/config/Database.js
