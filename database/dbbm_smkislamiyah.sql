@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 10, 2023 at 12:40 AM
+-- Generation Time: Feb 12, 2023 at 10:46 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -40,7 +40,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`nama_lengkap`, `username`, `photo_dir`, `createdAt`, `updatedAt`) VALUES
-('Admin Farhan', 'admin01', 'files/images/profile-picture/730_generated.jpg', '2022-12-20 00:41:19', '2023-02-04 00:22:42');
+('Admin Farhan', 'admin01', 'files/images/profile-picture/backpack_travel_bag_126473_3840x2160.jpg', '2022-12-20 00:41:19', '2023-02-04 00:22:42');
 
 -- --------------------------------------------------------
 
@@ -80,8 +80,10 @@ CREATE TABLE `jurusan` (
 --
 
 INSERT INTO `jurusan` (`id`, `nama_jurusan`, `deskripsi`, `createdAt`, `updatedAt`) VALUES
-(1, 'TKJ', 'Teknik Komputer Jaringan', '2023-02-05 08:29:25', '2023-02-05 08:29:35'),
-(2, 'Akuntansi', 'Akuntansi', '2023-02-05 08:29:35', '2023-02-05 08:29:35');
+(1, 'TKJ', 'TKJ', '2023-02-12 03:00:17', '2023-02-12 03:00:17'),
+(2, 'Akuntansi', 'Akuntansi', '2023-02-12 03:01:32', '2023-02-12 03:01:32'),
+(7, '123', '123', '2023-02-12 08:10:28', '2023-02-12 08:10:28'),
+(11, 'test', '123', '2023-02-12 08:16:53', '2023-02-12 08:16:53');
 
 -- --------------------------------------------------------
 
@@ -124,10 +126,11 @@ INSERT INTO `nasabah` (`norek`, `pengesah`, `nama_lengkap`, `kelas`, `kode_jurus
 ('2023017012', 'new 7', 'new 7', 'X', 'ne', 0, 'M', '0000-00-00', 'new 7', 0, 'new 7', '2023-01-07', 'new 7', 'new 7', '2023-01-07 04:20:55', '2023-01-07 04:20:55'),
 ('20230205018', 'TLR001', 'user baru', 'X', '1', 123, '2', '2023-02-01', '123', 123, '123', '2023-02-05', 'fa', 'fa', '2023-02-05 08:08:45', '2023-02-05 08:08:45'),
 ('20230205019', 'TLR001', 'bunga', 'XI', '2', 123, '1', '2023-02-01', '123', 123, '123', '2023-02-05', 'fa', 'fa', '2023-02-05 08:27:32', '2023-02-05 08:27:32'),
-('20230205020', 'TLR001', 'dyandra', 'XI', '1', 123, '1', '2023-02-01', '123', 123, '123', '2023-02-05', '123', '123', '2023-02-05 08:29:40', '2023-02-05 08:29:40'),
+('20230205020', 'TLR001', 'dyandra', 'XI', '1', 123, '1', '2023-02-01', '123', 123, '123', '2023-02-05', '123sss', '123', '2023-02-05 08:29:40', '2023-02-05 08:29:40'),
 ('20230208001', 'TLR001', 'Nasabah New', 'X', '1', 123, '1', '2000-02-08', 'Pamulang', 2147483647, 'farhan972015@mail.com', '2023-02-08', 'Fadlu', 'Dian', '2023-02-08 15:50:06', '2023-02-08 15:50:06'),
 ('20230208002', 'TLR001', 'baru4', 'X', '1', 123, '1', '2023-02-08', '123', 123123, '123', '2023-02-08', '123', '123', '2023-02-08 16:40:01', '2023-02-08 16:40:01'),
 ('20230209001', 'TLR001', 'sidang', 'X', '1', 123, '1', '2023-02-02', 'pamulang', 123, 'farhan@mail.com', '2023-02-09', 'test', 'test', '2023-02-09 03:25:17', '2023-02-09 03:25:17'),
+('20230212001', 'admin01', 'Farhan Februari', 'X', '4', 123, '1', '2000-02-02', 'Pamulang', 123, 'farhan@mail.com', '2023-02-12', 'Fadlu', 'Dian', '2023-02-12 03:07:17', '2023-02-12 03:07:17'),
 ('2023025017', 'TLR001', 'februari123', 'XI', '1', 123456, '1', '2023-02-01', '1234', 1234, '1234', '2023-02-05', 'farhan', 'bunga', '2023-02-05 06:51:20', '2023-02-05 06:51:20');
 
 -- --------------------------------------------------------
@@ -139,7 +142,7 @@ INSERT INTO `nasabah` (`norek`, `pengesah`, `nama_lengkap`, `kelas`, `kode_jurus
 CREATE TABLE `nsb_webuser` (
   `username` varchar(26) NOT NULL,
   `norek` varchar(16) NOT NULL,
-  `photo_dir` varchar(100) NOT NULL,
+  `photo_dir` varchar(255) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -152,12 +155,13 @@ INSERT INTO `nsb_webuser` (`username`, `norek`, `photo_dir`, `createdAt`, `updat
 ('baru4', '20230208002', 'files/images/profile-picture/aa.jpg', '2023-02-08 16:40:01', '2023-02-08 16:40:01'),
 ('bunga123', '20230205019', '', '2023-02-05 09:36:49', '2023-02-05 09:36:49'),
 ('far444', '20230205020', '', '2023-02-05 08:29:40', '2023-02-05 08:29:40'),
+('farfeb', '20230212001', '', '2023-02-12 03:07:17', '2023-02-12 03:07:17'),
 ('farhan122', '20221224105', '', '2023-01-29 05:39:26', '2023-01-29 05:39:26'),
 ('farhannfdl', '20230121014', '', '2023-01-27 13:23:08', '2023-01-27 13:23:08'),
 ('john123', '20230126015', 'files/images/profile-picture/test.jpg', '2023-01-26 14:41:33', '2023-01-26 14:41:33'),
 ('nasabahnew', '20230208001', '', '2023-02-08 15:50:06', '2023-02-08 15:50:06'),
 ('oji123', '20230130016', '', '2023-01-30 06:17:25', '2023-01-30 06:17:25'),
-('sidang1', '20230209001', '', '2023-02-09 03:25:17', '2023-02-09 03:25:17'),
+('sidang1', '20230209001', 'files/images/profile-picture/papers.co-ad53-fuji-red-mountain-alone-1366x768.jpg', '2023-02-09 03:25:17', '2023-02-09 03:25:17'),
 ('user01', '20221224001', '', '2023-01-23 15:15:03', '2023-01-23 15:15:03'),
 ('x123', '20230121013', '', '2023-01-30 06:19:13', '2023-01-30 06:19:13');
 
@@ -182,7 +186,7 @@ CREATE TABLE `st_homedate` (
 
 INSERT INTO `st_homedate` (`id`, `name`, `period_start`, `period_end`, `createdAt`, `updatedAt`) VALUES
 (1, 'nasabah', '2022-12-01', '2023-01-17', '2023-01-07 23:32:32', '2023-01-07 23:32:32'),
-(2, 'saldo', '2022-01-05', '2023-01-31', '2023-01-07 23:32:32', '2023-01-07 23:32:32'),
+(2, 'saldo', '2022-01-05', '2023-03-31', '2023-01-07 23:32:32', '2023-01-07 23:32:32'),
 (3, 'transaksi', '2023-01-06', '2023-01-31', '2023-01-07 23:33:39', '2023-01-07 23:33:39');
 
 -- --------------------------------------------------------
@@ -231,9 +235,9 @@ INSERT INTO `teller` (`username`, `no`, `nama_lengkap`, `nuptk`, `photo_dir`, `c
 ('TLR002', 2, 'Teller Dua', '66555333431', '', '2022-12-25 08:33:30', '2022-12-25 08:33:30'),
 ('TLR010', 3, 'test edit 14', 'test', '', '2023-01-07 09:29:24', '2023-01-07 09:29:24'),
 ('TLR011', 4, 'new teller edited 14', '213222', '', '2023-01-14 16:16:32', '2023-01-14 16:16:32'),
-('TLR012', 6, 'Bunga', '123456', '', '2023-01-29 12:21:07', '2023-01-29 12:21:07'),
-('TLR013', 7, 'Dyandra', '22222111', 'files/images/profile-picture/aa.jpg', '2023-01-29 12:24:02', '2023-01-29 12:24:02'),
-('TLR015', 9, 'senin', '1234', 'files/images/profile-picture/avatar.png', '2023-01-30 06:11:25', '2023-01-30 06:11:25');
+('TLR012', 11, 'new', '123', 'files/images/profile-picture/avatar.png', '2023-02-12 00:58:55', '2023-02-12 00:58:55'),
+('TLR013', 12, 'farhan', '123', 'files/images/profile-picture/avatar.png', '2023-02-12 00:59:06', '2023-02-12 00:59:06'),
+('TLR014', 13, 'terbaru', '123', 'files/images/profile-picture/avatar.png', '2023-02-12 08:09:03', '2023-02-12 08:09:03');
 
 -- --------------------------------------------------------
 
@@ -282,7 +286,11 @@ INSERT INTO `transaksi` (`id_transaksi`, `teller`, `norek`, `tgl_transaksi`, `ty
 ('TRS-20230208002', 'TLR001', '20230208002', '2023-02-08', 'penarikan', 5000, 45000, '2023-02-08 16:57:06', '2023-02-08 16:57:06'),
 ('TRS-20230209001', 'TLR001', '20230209001', '2023-02-09', 'setoran', 50000, 50000, '2023-02-09 03:26:45', '2023-02-09 03:26:45'),
 ('TRS-20230209002', 'TLR001', '20230209001', '2023-02-09', 'penarikan', 10000, 40000, '2023-02-09 03:29:33', '2023-02-09 03:29:33'),
-('TRS-20230209003', 'TLR001', '20230209001', '2023-02-09', 'penarikan', 10000, 30000, '2023-02-09 08:26:37', '2023-02-09 08:26:37');
+('TRS-20230209003', 'TLR001', '20230209001', '2023-02-09', 'penarikan', 10000, 30000, '2023-02-09 08:26:37', '2023-02-09 08:26:37'),
+('TRS-20230211001', 'TLR001', '20230209001', '2023-02-11', 'setoran', 15000, 45000, '2023-02-11 05:56:11', '2023-02-11 05:56:11'),
+('TRS-20230211002', 'TLR001', '20230209001', '2023-02-11', 'setoran', 5000, 50000, '2023-02-11 05:56:46', '2023-02-11 05:56:46'),
+('TRS-20230211003', 'TLR001', '20230209001', '2023-02-11', 'penarikan', 10000, 40000, '2023-02-11 05:57:10', '2023-02-11 05:57:10'),
+('TRS-20230211004', 'TLR001', '20230209001', '2023-02-11', 'setoran', 50000, 90000, '2023-02-11 09:39:26', '2023-02-11 09:39:26');
 
 -- --------------------------------------------------------
 
@@ -305,17 +313,21 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`username`, `password`, `refresh_token`, `isNewUser`, `role`, `updatedAt`, `createdAt`) VALUES
-('admin01', '$2a$12$/r7Je221m9w6R6Ve1.QjweCv8cBnCeaVIBt3oRO6XjblYTCiShkK2', '', 'Y', 'admin', '2023-02-04 18:05:18', '2023-02-04 18:05:18'),
+('admin01', '$2b$10$solN8fPLQ0sF27GMbXIMCeoYwnA3JN4B0SQviqnrNUXhQWfZkW0ua', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImFkbWluMDEiLCJpYXQiOjE2NzYxOTEwOTYsImV4cCI6MTY3NjI3NzQ5Nn0.B_avL8BOeV5Gl2SLJVjfWReUDCfSgFodptuqZWhFtSs', 'N', 'admin', '2023-02-04 18:05:18', '2023-02-04 18:05:18'),
 ('baru4', '$2b$10$03KTQknVkerdW2XqJ4utxelmcql9blidn6zf/lBPmeLkwPY8cYuIa', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImJhcnU0IiwiaWF0IjoxNjc1ODc0ODU5LCJleHAiOjE2NzU5NjEyNTl9.4MtUbVooWNJ03xOu85bhf7gsMt3NcboYPb5MIyLUPRQ', 'N', 'nasabah', '2023-02-08 16:40:01', '2023-02-08 16:40:01'),
 ('bunga123', '$2a$12$f.xgCpBG2II/ZjxOG9vC3u3qriPxcPMQPUIvdRJ7kysIqyqBxD3N.', '', 'Y', '', '2023-02-05 09:36:49', '2023-02-05 09:36:49'),
 ('fa123', '$2a$12$f.xgCpBG2II/ZjxOG9vC3u3qriPxcPMQPUIvdRJ7kysIqyqBxD3N.', '', 'Y', '', '2023-02-05 08:08:45', '2023-02-05 08:08:45'),
 ('fa456', '$2a$12$f.xgCpBG2II/ZjxOG9vC3u3qriPxcPMQPUIvdRJ7kysIqyqBxD3N.', '', 'Y', '', '2023-02-05 08:27:32', '2023-02-05 08:27:32'),
 ('far444', '$2b$10$Rjmg3X458HbYFmhQWsRRO.4bYNgO3z6/zEr/aZhYT6//TOs9LPUmq', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImZhcjQ0NCIsImlhdCI6MTY3NTU5NTc5MiwiZXhwIjoxNjc1NjgyMTkyfQ.peamPvIjcv6mrdVfly72vjUvaJI8mv8dBH-jr4iiqKE', 'N', 'nasabah', '2023-02-05 08:29:40', '2023-02-05 08:29:40'),
+('farfeb', '$2a$12$f.xgCpBG2II/ZjxOG9vC3u3qriPxcPMQPUIvdRJ7kysIqyqBxD3N.', '', 'Y', 'nasabah', '2023-02-12 03:07:17', '2023-02-12 03:07:17'),
 ('farhan122', '$2a$12$/r7Je221m9w6R6Ve1.QjweCv8cBnCeaVIBt3oRO6XjblYTCiShkK2', '', 'Y', 'nasabah', '2023-02-04 18:05:18', '2023-02-04 18:05:18'),
 ('feb123', '$2a$12$f.xgCpBG2II/ZjxOG9vC3u3qriPxcPMQPUIvdRJ7kysIqyqBxD3N.', '', 'Y', '', '2023-02-05 06:51:20', '2023-02-05 06:51:20'),
 ('nasabahnew', '$2b$10$BgzvYYn5W5WiXvW9VJd4o.ErDjAcNH.kgSaNHz46kAUiv6r.juV7O', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Im5hc2FiYWhuZXciLCJpYXQiOjE2NzU4NzE0MzUsImV4cCI6MTY3NTk1NzgzNX0.mgOGFYeDg-lpAyIJbhzzLjbPt0BAHoSmgYm_0bZobsw', 'N', 'nasabah', '2023-02-08 15:50:06', '2023-02-08 15:50:06'),
-('sidang1', '$2b$10$sjNfMaxnJfsv8wlF1pvbMuAvzVGMHblG53BVcIabyqrf1ZAug6fVO', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InNpZGFuZzEiLCJpYXQiOjE2NzU5MzYwMzgsImV4cCI6MTY3NjAyMjQzOH0.Lzhn-H51GYURKq72R16Mz-gHOqqPK6WJ2UXId8bZDFE', 'N', 'nasabah', '2023-02-09 03:25:17', '2023-02-09 03:25:17'),
-('TLR001', '$2a$12$f.xgCpBG2II/ZjxOG9vC3u3qriPxcPMQPUIvdRJ7kysIqyqBxD3N.', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IlRMUjAwMSIsImlhdCI6MTY3NTkyNzY4NiwiZXhwIjoxNjc2MDE0MDg2fQ.yH9YKCEYm2P548JZa7TbY6nnVUT0saUzkOh8zOfSaLE', 'N', 'teller', '2023-02-04 18:05:18', '2023-02-04 18:05:18');
+('sidang1', '$2b$10$sJ83q4qkU//qQDmubu3FwuB1hR9psouMVMFl6ZfaVZ3DJUdJg.MLu', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InNpZGFuZzEiLCJpYXQiOjE2NzYxOTE2ODEsImV4cCI6MTY3NjI3ODA4MX0.ljJViRg3R7tn4XA1iXgRbTkyqCvA0gZbcRfkQClPMHk', 'N', 'nasabah', '2023-02-09 03:25:17', '2023-02-09 03:25:17'),
+('TLR001', '$2a$12$f.xgCpBG2II/ZjxOG9vC3u3qriPxcPMQPUIvdRJ7kysIqyqBxD3N.', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IlRMUjAwMSIsImlhdCI6MTY3NjE5MTY5MywiZXhwIjoxNjc2Mjc4MDkzfQ.T6-KyS_Zm89doeX2rha4ISPMWGeEZkPxexVj9WBOnVs', 'N', 'teller', '2023-02-04 18:05:18', '2023-02-04 18:05:18'),
+('TLR012', '$2a$12$bqR0I0w4p28fp9gbH8j/guwgxy2pjw.JFEGqvn5jyVFskpZep1RUS', '', 'Y', '', '2023-02-12 00:58:55', '2023-02-12 00:58:55'),
+('TLR013', '$2a$12$bqR0I0w4p28fp9gbH8j/guwgxy2pjw.JFEGqvn5jyVFskpZep1RUS', '', 'Y', '', '2023-02-12 00:59:06', '2023-02-12 00:59:06'),
+('TLR014', '$2a$12$bqR0I0w4p28fp9gbH8j/guwgxy2pjw.JFEGqvn5jyVFskpZep1RUS', '', 'Y', '', '2023-02-12 08:09:03', '2023-02-12 08:09:03');
 
 --
 -- Indexes for dumped tables
@@ -397,7 +409,7 @@ ALTER TABLE `jenis_kelamin`
 -- AUTO_INCREMENT for table `jurusan`
 --
 ALTER TABLE `jurusan`
-  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `st_homedate`
@@ -415,7 +427,7 @@ ALTER TABLE `st_logo`
 -- AUTO_INCREMENT for table `teller`
 --
 ALTER TABLE `teller`
-  MODIFY `no` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `no` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
