@@ -3,7 +3,7 @@ import db from "./config/Database.js";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import helperAll from "./helper/helperAll.js";
+import helperAll from "./helper/HelperAll.js";
 import router from "./routes/index.js";
 import routerNasabah from "./routes/NasabahRoutes.js";
 import routerJurusan from "./routes/JurusanRoutes.js";
