@@ -214,7 +214,7 @@ export const getNasabahById = async (req, res) => {
     const norek = req.params.norek;
 
     const result = await db.query(
-      "SELECT nb.*, jr.nama_jurusan, jk.jenis_kelamin, tr.username AS pengesah FROM nasabah nb LEFT JOIN jurusan jr ON jr.id = nb.kode_jurusan LEFT JOIN jenis_kelamin jk ON jk.id = nb.kode_jk LEFT JOIN teller tr ON tr.username = nb.pengesah WHERE nb.norek = :norek",
+      "SELECT nb.*, jr.nama_jurusan, jk.jenis_kelamin, CASE WHEN tr.username IS NOT NULL THEN tr.username WHEN adm.username IS NOT NULL THEN adm.username END AS pengesah FROM nasabah nb LEFT JOIN jurusan jr ON jr.id = nb.kode_jurusan LEFT JOIN jenis_kelamin jk ON jk.id = nb.kode_jk LEFT JOIN teller tr ON tr.username = nb.pengesah LEFT JOIN admin adm ON adm.username = nb.pengesah WHERE nb.norek = :norek",
       {
         replacements: { norek: norek },
         type: QueryTypes.SELECT,
@@ -262,7 +262,7 @@ export const getSaldo = async (req, res) => {
     norekSplit = norekSplit.toString();
 
     const nasabah = await db.query(
-      `SELECT nb.norek, nb.nama_lengkap, nb.kelas, jr.nama_jurusan, tr.current_saldo AS saldo FROM nasabah nb INNER JOIN (SELECT  DISTINCT norek, createdAt, current_saldo FROM transaksi) tr ON tr.norek = nb.norek INNER JOIN jurusan jr ON jr.id = nb.kode_jurusan WHERE nb.norek IN (${norekSplit}) GROUP BY nb.norek ORDER BY tr.createdAt`,
+      `SELECT nb.norek, nb.nama_lengkap, nb.kelas, jr.nama_jurusan, concat('Rp. ', format(tr.current_saldo, 0)) AS saldo FROM nasabah nb INNER JOIN (SELECT  DISTINCT norek, createdAt, current_saldo FROM transaksi) tr ON tr.norek = nb.norek INNER JOIN jurusan jr ON jr.id = nb.kode_jurusan WHERE nb.norek IN (${norekSplit}) GROUP BY nb.norek ORDER BY tr.createdAt`,
       { type: QueryTypes.SELECT }
     );
 
@@ -278,7 +278,7 @@ export const getCountSaldo = async (req, res) => {
     const dateEnd = req.body.dateEnd;
 
     const totalSaldo = await db.query(
-      "SELECT DISTINCT tr.norek, SUM(tr.current_saldo) AS total_saldo FROM transaksi WHERE createdAt >= :dateStart AND createdAt <= :dateEnd ORDER BY createdAt DESC",
+      "SELECT concat('Rp. ', format(SUM(current_saldo), 0)) AS total_saldo FROM ( SELECT norek, current_saldo, createdAt, row_number() over (partition by norek order by createdAt desc) as rownum FROM transaksi ) AS t WHERE rownum = 1 AND createdAt >= :dateStart AND createdAt <= :dateEnd ",
       {
         type: QueryTypes.SELECT,
         replacements: {
@@ -287,6 +287,8 @@ export const getCountSaldo = async (req, res) => {
         },
       }
     );
+
+    console.log(totalSaldo);
 
     res.json(totalSaldo);
   } catch (error) {
@@ -384,7 +386,7 @@ export const getWebUserListing = async (req, res) => {
     const totalPage = Math.ceil(totalRows / limit);
 
     const result = await db.query(
-      "SELECT wu.username, nb.norek, nb.nama_lengkap, nb.kelas, nb.kode_jurusan FROM nasabah nb INNER JOIN nsb_webuser wu ON wu.norek = nb.norek WHERE nb.nama_lengkap LIKE :search OR nb.norek LIKE :search OR wu.username LIKE :search ORDER BY wu.createdAt DESC LIMIT :limit OFFSET :offset ",
+      "SELECT wu.username, nb.norek, nb.nama_lengkap AS full_name, nb.kelas, jr.nama_jurusan AS jurusan FROM nasabah nb INNER JOIN nsb_webuser wu ON wu.norek = nb.norek LEFT JOIN jurusan jr ON jr.id = nb.kode_jurusan WHERE nb.nama_lengkap LIKE :search OR nb.norek LIKE :search OR wu.username LIKE :search ORDER BY wu.createdAt DESC LIMIT :limit OFFSET :offset ",
       {
         type: QueryTypes.SELECT,
         replacements: {

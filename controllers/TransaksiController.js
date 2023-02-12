@@ -165,7 +165,7 @@ export const getTransaksiListing = async (req, res) => {
     totalPage = Math.ceil(totalRows / limit);
 
     result = await db.query(
-      `SELECT tr.id_transaksi, tr.type, tr.tgl_transaksi, tr.norek, nb.nama_lengkap, nb.kelas, jr.nama_jurusan, tr.jumlah FROM transaksi tr INNER JOIN nasabah nb ON tr.norek = nb.norek ${webUserJoin} LEFT JOIN jurusan jr ON jr.id = nb.kode_jurusan WHERE (tr.id_transaksi LIKE :search OR tr.norek LIKE :search OR nb.nama_lengkap LIKE :search OR tr.teller LIKE :search) ${checkFilter} ${webUserWhere} ORDER BY tr.createdAt DESC LIMIT :limit OFFSET :offset `,
+      `SELECT tr.id_transaksi, tr.type, tr.tgl_transaksi, tr.norek, nb.nama_lengkap, nb.kelas, jr.nama_jurusan, concat('Rp. ', format(tr.jumlah, 0)) AS jumlah FROM transaksi tr INNER JOIN nasabah nb ON tr.norek = nb.norek ${webUserJoin} LEFT JOIN jurusan jr ON jr.id = nb.kode_jurusan WHERE (tr.id_transaksi LIKE :search OR tr.norek LIKE :search OR nb.nama_lengkap LIKE :search OR tr.teller LIKE :search) ${checkFilter} ${webUserWhere} ORDER BY tr.createdAt DESC LIMIT :limit OFFSET :offset `,
       {
         type: QueryTypes.SELECT,
         replacements: {
@@ -193,7 +193,7 @@ export const getTransaksiById = async (req, res) => {
     const idTransaksi = req.params.idTransaksi;
 
     const result = await db.query(
-      "SELECT id_transaksi, tgl_transaksi, norek, teller, type, jumlah FROM transaksi WHERE id_transaksi = :idTransaksi",
+      "SELECT id_transaksi, tgl_transaksi, norek, teller, type, concat('Rp .', format(jumlah, 0)) AS jumlah_formatted, jumlah FROM transaksi WHERE id_transaksi = :idTransaksi",
       {
         type: QueryTypes.SELECT,
         replacements: {

@@ -260,7 +260,7 @@ export const getUserById = async (req, res) => {
       );
     } else if (userRole === "teller") {
       user = await db.query(
-        "SELECT tlr.username, tlr.nama_lengkap AS full_name, tlr.nuptk, tlr.photo_dir, user.isNewUser FROM teller tlr INNER JOIN user us ON us.username = tlr.username WHERE tlr.username = :username",
+        "SELECT tlr.username, tlr.nama_lengkap AS full_name, tlr.nuptk, tlr.photo_dir, us.isNewUser FROM teller tlr INNER JOIN user us ON us.username = tlr.username WHERE tlr.username = :username",
         {
           type: QueryTypes.SELECT,
           replacements: {

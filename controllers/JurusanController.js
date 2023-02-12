@@ -6,6 +6,7 @@ export const addJurusan = async (req, res) => {
   try {
     const jurusan = await Jurusan.create({
       nama_jurusan: req.body.namaJurusan,
+      deskripsi: req.body.deskripsiJurusan,
     });
 
     res.status(200).json({ msg: "data success send to server" });
@@ -17,14 +18,16 @@ export const addJurusan = async (req, res) => {
 export const updateJurusan = async (req, res) => {
   try {
     const namaJurusan = req.body.namaJurusan;
-    const id = req.body.id;
+    const deskripsiJurusan = req.body.deskripsiJurusan;
+    const id = req.body.idJurusan;
 
     const update = await db.query(
-      "UPDATE jurusan SET nama_jurusan = :namaJurusan WHERE id = :id",
+      "UPDATE jurusan SET nama_jurusan = :namaJurusan, deskripsi = :deskripsiJurusan WHERE id = :id",
       {
         type: QueryTypes.UPDATE,
         replacements: {
           namaJurusan: namaJurusan,
+          deskripsiJurusan: deskripsiJurusan,
           id: id,
         },
       }
@@ -38,7 +41,7 @@ export const updateJurusan = async (req, res) => {
 
 export const deleteJurusan = async (req, res) => {
   try {
-    const id = req.body.id;
+    const id = req.body.idJurusan;
 
     await db.query("DELETE FROM jurusan WHERE id = :id", {
       type: QueryTypes.DELETE,
@@ -46,6 +49,8 @@ export const deleteJurusan = async (req, res) => {
         id: id,
       },
     });
+
+    res.status(200).json({ msg: "success delete" });
   } catch (error) {
     console.log(error);
   }
@@ -81,7 +86,7 @@ export const getJurusanListing = async (req, res) => {
 
     if (lastId < 1) {
       const result = await db.query(
-        "SELECT * FROM jurusan WHERE nama_jurusan LIKE :search OR nuptk LIKE :search OR username LIKE :search ORDER BY no ASC LIMIT :limit ",
+        "SELECT * FROM jurusan WHERE nama_jurusan LIKE :search OR deskripsi LIKE :search ORDER BY id ASC LIMIT :limit ",
         {
           type: QueryTypes.SELECT,
           replacements: {
@@ -95,7 +100,7 @@ export const getJurusanListing = async (req, res) => {
       resLastId = arrResult[arrResult.length - 1].id;
     } else {
       const result = await db.query(
-        "SELECT * FROM jurusan j1 RIGHT JOIN (SELECT id AS idj2, username FROM jurusan) j2 ON j1.id = j2.id WHERE j2.idj2 > :lastId AND ( j1.nama_jurusan LIKE :search) GROUP BY j2.idj2 ORDER BY j1.id ASC LIMIT :limit ",
+        "SELECT * FROM jurusan j1 RIGHT JOIN (SELECT id AS idj2 FROM jurusan) j2 ON j1.id = j2.idj2 WHERE j2.idj2 > :lastId AND ( j1.nama_jurusan LIKE :search OR j1.deskripsi LIKE :search) GROUP BY j2.idj2 ORDER BY j1.id ASC LIMIT :limit ",
         {
           type: QueryTypes.SELECT,
           replacements: {
@@ -107,7 +112,15 @@ export const getJurusanListing = async (req, res) => {
       );
 
       arrResult = result;
-      resLastId = arrResult[arrResult.length - 1].idt2;
+
+      if (arrResult.length === 0) {
+        return res.json({
+          msg: "All data has been loaded",
+          hasMore: false,
+        });
+      }
+
+      resLastId = arrResult[arrResult.length - 1].idj2;
     }
 
     res.json({
@@ -131,6 +144,8 @@ export const getJurusanById = async (req, res) => {
         id: id,
       },
     });
+
+    res.status(200).json(result);
   } catch (error) {
     console.log(error);
   }

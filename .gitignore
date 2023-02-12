@@ -4,3 +4,4 @@
 /helper/helperAll.js
 /config/Database.js
 /node_modules/
+/controllers/UserController.js

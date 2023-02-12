@@ -1,4 +1,5 @@
 import Teller from "../models/TellerModel.js";
+import User from "../models/UserModel.js";
 import db from "../config/Database.js";
 import { QueryTypes } from "sequelize";
 
@@ -6,7 +7,7 @@ export const addTeller = async (req, res) => {
   try {
     const teller = await Teller.create({
       username: req.body.idTeller,
-      nama_lengkap: req.body.namaLengkap,
+      nama_lengkap: req.body.fullName,
       nuptk: req.body.nuptk,
       photo_dir: "files/images/profile-picture/avatar.png",
     });
@@ -53,6 +54,15 @@ export const deleteTeller = async (req, res) => {
 
     const deleteData = await db.query(
       "DELETE FROM teller WHERE username = :idTeller",
+      {
+        type: QueryTypes.DELETE,
+        replacements: {
+          idTeller: idTeller,
+        },
+      }
+    );
+    const delTellerUser = await db.query(
+      "DELETE FROM user WHERE username = :idTeller",
       {
         type: QueryTypes.DELETE,
         replacements: {
@@ -158,8 +168,6 @@ export const getTellerListing = async (req, res) => {
       resLastId = arrResult[arrResult.length - 1].no;
       // resLastId = parseInt(resLastId.slice(3, 6));
     } else {
-      console.log(lastId);
-      console.log("123");
       const result = await db.query(
         "SELECT * FROM teller t1 RIGHT JOIN (SELECT no AS idt2, username FROM teller) t2 ON t1.username = t2.username WHERE t2.idt2 > :lastId AND ( t1.nama_lengkap LIKE :search OR t1.nuptk LIKE :search OR t1.username LIKE :search) GROUP BY t2.idt2 ORDER BY t1.no ASC LIMIT :limit ",
         {
@@ -173,6 +181,14 @@ export const getTellerListing = async (req, res) => {
       );
 
       arrResult = result;
+
+      if (arrResult.length === 0) {
+        return res.json({
+          msg: "All data has been loaded",
+          hasMore: false,
+        });
+      }
+
       resLastId = arrResult[arrResult.length - 1].idt2;
     }
 

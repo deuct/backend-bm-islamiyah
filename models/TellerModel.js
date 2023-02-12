@@ -11,7 +11,7 @@ const Teller = db.define(
       allowNull: false,
       primaryKey: true,
     },
-    full_name: {
+    nama_lengkap: {
       type: DataTypes.STRING,
     },
     password: {
@@ -25,6 +25,10 @@ const Teller = db.define(
     },
     photo_dir: {
       type: DataTypes.STRING,
+    },
+    no: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
     },
   },
   {

@@ -10,7 +10,7 @@ export const getReport = async (req, res) => {
 
   if (reportType === "Journal") {
     report = await db.query(
-      "SELECT tr.id_transaksi, tr.tgl_transaksi Tanggal, tr.TYPE Keterangan, (-1 * debet.jumlah)  AS debet, kredit.jumlah AS kredit, SUM(-1 * debet.jumlah) OVER (ORDER BY tr.id_transaksi) AS totalDebet,  SUM(kredit.jumlah) OVER (ORDER BY tr.id_transaksi) AS totalKredit FROM transaksi tr LEFT JOIN (SELECT id_transaksi, TYPE, jumlah FROM transaksi WHERE TYPE = 'setoran') kredit ON kredit.id_transaksi = tr.id_transaksi  LEFT JOIN (SELECT id_transaksi, TYPE, jumlah FROM transaksi WHERE TYPE = 'penarikan') debet ON debet.id_transaksi = tr.id_transaksi WHERE tr.tgl_transaksi >= :dateStart AND tr.tgl_transaksi <= :dateEnd",
+      "SELECT tr.id_transaksi, tr.tgl_transaksi Tanggal, tr.TYPE Keterangan, debet.jumlah  AS debet, (-1 *  kredit.jumlah) AS kredit FROM transaksi tr LEFT JOIN (SELECT id_transaksi, TYPE, jumlah FROM transaksi WHERE TYPE = 'setoran') kredit ON kredit.id_transaksi = tr.id_transaksi  LEFT JOIN (SELECT id_transaksi, TYPE, jumlah FROM transaksi WHERE TYPE = 'penarikan') debet ON debet.id_transaksi = tr.id_transaksi WHERE tr.tgl_transaksi >= :dateStart AND tr.tgl_transaksi <= :dateEnd",
       {
         type: QueryTypes.SELECT,
         replacements: { dateStart: dateStart, dateEnd: dateEnd },
@@ -18,7 +18,7 @@ export const getReport = async (req, res) => {
     );
   } else if (reportType === "RekapEndOfDay") {
     report = await db.query(
-      "SELECT tr.id_transaksi, tr.tgl_transaksi Tanggal, tr.TYPE Keterangan, (-1 * debet.jumlah)  AS debet, kredit.jumlah AS kredit, SUM(-1 * debet.jumlah) OVER (ORDER BY tr.id_transaksi) AS totalDebet,  SUM(kredit.jumlah) OVER (ORDER BY tr.id_transaksi) AS totalKredit FROM transaksi tr LEFT JOIN (SELECT id_transaksi, TYPE, jumlah FROM transaksi WHERE TYPE = 'setoran') kredit ON kredit.id_transaksi = tr.id_transaksi  LEFT JOIN (SELECT id_transaksi, TYPE, jumlah FROM transaksi WHERE TYPE = 'penarikan') debet ON debet.id_transaksi = tr.id_transaksi WHERE tr.tgl_transaksi >= :dateStart AND tr.tgl_transaksi <= :dateEnd",
+      "SELECT tr.id_transaksi, tr.tgl_transaksi Tanggal, tr.TYPE Keterangan,  debet.jumlah AS debet, (-1 * kredit.jumlah) AS kredit FROM transaksi tr LEFT JOIN (SELECT id_transaksi, TYPE, jumlah FROM transaksi WHERE TYPE = 'setoran') kredit ON kredit.id_transaksi = tr.id_transaksi  LEFT JOIN (SELECT id_transaksi, TYPE, jumlah FROM transaksi WHERE TYPE = 'penarikan') debet ON debet.id_transaksi = tr.id_transaksi WHERE tr.tgl_transaksi >= :dateStart AND tr.tgl_transaksi <= :dateEnd",
       {
         type: QueryTypes.SELECT,
         replacements: { dateStart: dateStart, dateEnd: dateEnd },
@@ -35,12 +35,8 @@ export const getPrintTabungan = async (req, res) => {
     const startDate = req.query.startDate;
     const endDate = req.query.endDate;
 
-    console.log(startDate);
-    console.log(endDate);
-    console.log(norek);
-
     const tabungan = await db.query(
-      "SELECT tr.norek, tr.tgl_transaksi, CASE WHEN tr.TYPE = 'setoran' THEN CAST(tr.jumlah AS INTEGER) ELSE 0 END AS kredit, CASE WHEN tr.TYPE = 'penarikan' THEN CAST(tr.jumlah AS INTEGER) ELSE 0 END AS debet, tr.current_saldo AS saldo FROM transaksi tr WHERE tr.norek = :norek AND tr.tgl_transaksi >= :startDate AND tr.tgl_transaksi <= :endDate ORDER BY tr.createdAt ASC",
+      "SELECT tr.norek, tr.tgl_transaksi, CASE WHEN tr.TYPE = 'setoran' THEN CAST(tr.jumlah AS INTEGER) ELSE 0 END AS debet, CASE WHEN tr.TYPE = 'penarikan' THEN CAST(tr.jumlah AS INTEGER) ELSE 0 END AS kredit, tr.current_saldo AS saldo FROM transaksi tr WHERE tr.norek = :norek AND tr.tgl_transaksi >= :startDate AND tr.tgl_transaksi <= :endDate ORDER BY tr.createdAt ASC",
       {
         type: QueryTypes.SELECT,
         replacements: {
@@ -50,8 +46,6 @@ export const getPrintTabungan = async (req, res) => {
         },
       }
     );
-
-    console.log(tabungan);
 
     res.status(200).json(tabungan);
   } catch (error) {
