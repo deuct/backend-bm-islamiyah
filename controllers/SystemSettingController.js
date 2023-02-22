@@ -62,3 +62,25 @@ export const getCompanyLogo = async (req, res) => {
     console.log(error);
   }
 };
+
+export const systemOverview = async (req, res) => {
+  try {
+    const totalTeller = await db.query("SELECT COUNT(*) FROM teller", {
+      type: QueryTypes.SELECT,
+    });
+    const totalWebuser = await db.query("SELECT COUNT(*) FROM nasabah", {
+      type: QueryTypes.SELECT,
+    });
+    const totalNasabah = await db.query("SELECT COUNT(*) FROM nsb_webuser", {
+      type: QueryTypes.SELECT,
+    });
+
+    res.status(200).json({
+      totalTeller: totalTeller,
+      totalWebuser: totalWebuser,
+      totalNasabah: totalNasabah,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

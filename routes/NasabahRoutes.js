@@ -15,6 +15,8 @@ import {
   addWebUser,
   deleteWebUser,
   resetPasswordWebUser,
+  updateLastPrintDate,
+  countUnprinted,
 } from "../controllers/NasabahController.js";
 
 const routerNasabah = express.Router();
@@ -38,5 +40,16 @@ routerNasabah.post(
 routerNasabah.post("/nasabah/webuser/delete", verifyToken, deleteWebUser);
 routerNasabah.get("/nasabah/webuser/listing", verifyToken, getWebUserListing);
 routerNasabah.get("/nasabah/webuser/one", verifyToken, getWebUserById);
+
+routerNasabah.post(
+  "/nasabah/printdate/update",
+  verifyToken,
+  updateLastPrintDate
+);
+routerNasabah.post(
+  "/nasabah/printdate/unprinted-count",
+  verifyToken,
+  countUnprinted
+);
 
 export default routerNasabah;

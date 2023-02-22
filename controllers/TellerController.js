@@ -16,6 +16,7 @@ export const addTeller = async (req, res) => {
       username: req.body.idTeller,
       password: "$2a$12$bqR0I0w4p28fp9gbH8j/guwgxy2pjw.JFEGqvn5jyVFskpZep1RUS",
       isNewUser: "Y",
+      role: "teller",
     });
 
     res.status(200).json({ message: "data success send to server" });

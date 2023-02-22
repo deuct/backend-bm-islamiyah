@@ -19,7 +19,7 @@ const router = express.Router();
 router.get("/", testing);
 
 router.post("/login", login);
-router.delete("/logout/", logout);
+router.post("/logout/", logout);
 router.get("/token/", refreshToken);
 router.get("/user-role", verifyToken, getUserRole);
 

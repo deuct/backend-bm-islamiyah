@@ -18,6 +18,8 @@ dotenv.config();
 
 const app = express();
 
+app.use(cookieParser());
+
 app.use(
   cors({
     credentials: true,
@@ -25,7 +27,6 @@ app.use(
   })
 );
 
-app.use(cookieParser());
 app.use(express.json());
 
 app.use(router);

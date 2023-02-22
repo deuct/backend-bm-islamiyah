@@ -1,4 +1,4 @@
-import Admin from "../models/AdminModel.js";
+import cookieParser from "cookie-parser";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import db from "../config/Database.js";
@@ -104,14 +104,17 @@ export const logout = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   const userRole = req.cookies.userRole;
 
+  // console.log(refreshToken);
   if (!refreshToken) return res.sendStatus(204);
+
+  console.log("jalan");
 
   let user;
 
   user = await db.query(
     "SELECT * FROM user WHERE refresh_token = :refreshToken",
     {
-      type: QueryTypes.UPDATE,
+      type: QueryTypes.SELECT,
       replacements: {
         refreshToken: refreshToken,
       },
@@ -125,7 +128,7 @@ export const logout = async (req, res) => {
   const username = user[0].username;
 
   await db.query(
-    "UPDATE user SET refresh_token = null WHERE username = :username AND role = :userRole ",
+    "UPDATE user SET refresh_token = '' WHERE username = :username AND role = :userRole ",
     {
       type: QueryTypes.UPDATE,
       replacements: {

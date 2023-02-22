@@ -214,7 +214,7 @@ export const getNasabahById = async (req, res) => {
     const norek = req.params.norek;
 
     const result = await db.query(
-      "SELECT nb.*, jr.nama_jurusan, jk.jenis_kelamin, CASE WHEN tr.username IS NOT NULL THEN tr.username WHEN adm.username IS NOT NULL THEN adm.username END AS pengesah FROM nasabah nb LEFT JOIN jurusan jr ON jr.id = nb.kode_jurusan LEFT JOIN jenis_kelamin jk ON jk.id = nb.kode_jk LEFT JOIN teller tr ON tr.username = nb.pengesah LEFT JOIN admin adm ON adm.username = nb.pengesah WHERE nb.norek = :norek",
+      "SELECT nb.*, jr.nama_jurusan, jk.jenis_kelamin, CASE WHEN tr.username IS NOT NULL THEN tr.username WHEN adm.username IS NOT NULL THEN adm.username END AS pengesah, pd.last_printdate AS printdate FROM nasabah nb LEFT JOIN jurusan jr ON jr.id = nb.kode_jurusan LEFT JOIN jenis_kelamin jk ON jk.id = nb.kode_jk LEFT JOIN teller tr ON tr.username = nb.pengesah LEFT JOIN admin adm ON adm.username = nb.pengesah LEFT JOIN nsb_printdate pd ON pd.norek = nb.norek  WHERE nb.norek = :norek",
       {
         replacements: { norek: norek },
         type: QueryTypes.SELECT,
@@ -307,6 +307,7 @@ export const addWebUser = async (req, res) => {
       username: req.body.webUserName,
       password: "$2a$12$f.xgCpBG2II/ZjxOG9vC3u3qriPxcPMQPUIvdRJ7kysIqyqBxD3N.",
       isNewUser: "Y",
+      role: "nasabah",
     });
 
     res.json({ msg: "success added webuser" });
@@ -429,6 +430,81 @@ export const getWebUserById = async (req, res) => {
       return res.status(400).json({ msg: "data not found" });
 
     res.json(webuser);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateLastPrintDate = async (req, res) => {
+  try {
+    const norek = req.body.norek;
+    const lastPrintDate = req.body.last_printdate;
+
+    const printdate = await db.query(
+      `SELECT norek FROM nsb_printdate WHERE norek = ${norek}`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+
+    if (printdate.length > 0) {
+      await db.query(
+        `UPDATE nsb_printdate SET last_printdate = '${lastPrintDate}' WHERE norek = '${norek}'`,
+        {
+          type: QueryTypes.UPDATE,
+        }
+      );
+    } else {
+      await db.query(
+        `INSERT INTO nsb_printdate (norek, last_printdate) VALUES ('${norek}', '${lastPrintDate}')`,
+        {
+          type: QueryTypes.UPDATE,
+        }
+      );
+    }
+
+    res.status(200).json({ msg: "Success send data" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const countUnprinted = async (req, res) => {
+  try {
+    const endDate = req.body.end_date;
+    const norek = req.body.norek;
+
+    const lastTransaksi = await db.query(
+      `SELECT tgl_transaksi FROM transaksi WHERE norek = ${norek} ORDER BY tgl_transaksi DESC LIMIT 1`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+
+    const lastPrintDate = await db.query(
+      `SELECT last_printdate, DATE_ADD(last_printdate, INTERVAL 1 DAY) AS start_printdate FROM nsb_printdate WHERE norek = ${norek} `,
+      { type: QueryTypes.SELECT }
+    );
+
+    const countPrintedTotal = await db.query(
+      `SELECT COUNT(*) AS up_total FROM transaksi tr LEFT JOIN nsb_printdate pd ON tr.norek = pd.norek WHERE pd.norek = '${norek}' AND tr.tgl_transaksi > pd.last_printdate`,
+      { type: QueryTypes.SELECT }
+    );
+
+    const countPrintedRange = await db.query(
+      `SELECT COUNT(*) AS up_range FROM transaksi tr LEFT JOIN nsb_printdate pd ON tr.norek = pd.norek WHERE pd.norek = '${norek}' AND tr.tgl_transaksi > pd.last_printdate AND tr.tgl_transaksi <= '${endDate}'`,
+      { type: QueryTypes.SELECT }
+    );
+
+    console.log(lastTransaksi);
+
+    res.status(200).json({
+      lastPrintDate: lastPrintDate[0].last_printdate,
+      startPrintDate: lastPrintDate[0].start_printdate,
+      lastTransaksi: lastTransaksi[0].tgl_transaksi,
+      printedTotal: countPrintedTotal[0].up_total,
+      printedRange: countPrintedRange[0].up_range,
+    });
   } catch (error) {
     console.log(error);
   }
