@@ -41,6 +41,11 @@ export const addNasabah = async (req, res) => {
       });
     }
 
+    await db.query(
+      `INSERT INTO nsb_printdate (norek, last_printdate) VALUES ('${req.body.noRekening}', '2000-01-01')`,
+      { type: QueryTypes.INSERT }
+    );
+
     res.status(200).json({ message: "data success send to server" });
   } catch (error) {
     console.log(error);

@@ -81,7 +81,7 @@ export const getIdTransaksi = async (req, res) => {
     currentDate = currentDate.toString();
 
     let lastIdTransaksi = await db.query(
-      `SELECT id_transaksi FROM transaksi WHERE tgl_transaksi = '${currentDate}' ORDER BY createdAt DESC LIMIT 1`,
+      `SELECT id_transaksi FROM transaksi WHERE tgl_transaksi = '${currentDate}' ORDER BY id_transaksi DESC LIMIT 1`,
       {
         type: QueryTypes.SELECT,
       }
