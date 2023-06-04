@@ -10,7 +10,7 @@ export const addTransaksi = async (req, res) => {
     let newSaldo = 0;
 
     let saldo = await db.query(
-      "SELECT current_saldo FROM transaksi WHERE norek = :norek ORDER BY createdAt DESC LIMIT 1",
+      "SELECT current_saldo FROM transaksi WHERE norek = :norek ORDER BY created_atAt DESC LIMIT 1",
       {
         type: QueryTypes.SELECT,
         replacements: { norek: norek },
@@ -150,7 +150,7 @@ export const getTransaksiListing = async (req, res) => {
     }
 
     totalRows = await db.query(
-      `SELECT COUNT(*) as totalRows FROM transaksi tr INNER JOIN nasabah nb ON tr.norek = nb.norek ${webUserJoin} WHERE (tr.id_transaksi LIKE :search OR tr.norek LIKE :search OR nb.nama_lengkap LIKE :search OR tr.teller LIKE :search) ${checkFilter} ${webUserWhere} ORDER BY tr.createdAt DESC LIMIT :limit`,
+      `SELECT COUNT(*) as totalRows FROM transaksi tr INNER JOIN nasabah nb ON tr.norek = nb.norek ${webUserJoin} WHERE (tr.id_transaksi LIKE :search OR tr.norek LIKE :search OR nb.nama_lengkap LIKE :search OR tr.teller LIKE :search) ${checkFilter} ${webUserWhere} ORDER BY tr.created_atAt DESC LIMIT :limit`,
       {
         type: QueryTypes.SELECT,
         replacements: {
@@ -165,7 +165,7 @@ export const getTransaksiListing = async (req, res) => {
     totalPage = Math.ceil(totalRows / limit);
 
     result = await db.query(
-      `SELECT tr.id_transaksi, tr.type, tr.tgl_transaksi, tr.norek, nb.nama_lengkap, nb.kelas, jr.nama_jurusan, concat('Rp. ', format(tr.jumlah, 0)) AS jumlah FROM transaksi tr INNER JOIN nasabah nb ON tr.norek = nb.norek ${webUserJoin} LEFT JOIN jurusan jr ON jr.id = nb.kode_jurusan WHERE (tr.id_transaksi LIKE :search OR tr.norek LIKE :search OR nb.nama_lengkap LIKE :search OR tr.teller LIKE :search) ${checkFilter} ${webUserWhere} ORDER BY tr.createdAt DESC LIMIT :limit OFFSET :offset `,
+      `SELECT tr.id_transaksi, tr.type, tr.tgl_transaksi, tr.norek, nb.nama_lengkap, nb.kelas, jr.nama_jurusan, concat('Rp. ', format(tr.jumlah, 0)) AS jumlah FROM transaksi tr INNER JOIN nasabah nb ON tr.norek = nb.norek ${webUserJoin} LEFT JOIN jurusan jr ON jr.id = nb.kode_jurusan WHERE (tr.id_transaksi LIKE :search OR tr.norek LIKE :search OR nb.nama_lengkap LIKE :search OR tr.teller LIKE :search) ${checkFilter} ${webUserWhere} ORDER BY tr.created_atAt DESC LIMIT :limit OFFSET :offset `,
       {
         type: QueryTypes.SELECT,
         replacements: {
@@ -214,7 +214,7 @@ export const getCountTransaksi = async (req, res) => {
     const dateEnd = req.body.dateEnd;
 
     const totalTransaksi = await db.query(
-      "SELECT COUNT(*) AS total_transaksi FROM transaksi WHERE createdAt >= :dateStart AND createdAt <= :dateEnd",
+      "SELECT COUNT(*) AS total_transaksi FROM transaksi WHERE created_atAt >= :dateStart AND created_atAt <= :dateEnd",
       {
         type: QueryTypes.SELECT,
         replacements: {

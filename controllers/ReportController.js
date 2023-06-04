@@ -36,7 +36,7 @@ export const getPrintTabungan = async (req, res) => {
     const endDate = req.query.endDate;
 
     const tabungan = await db.query(
-      "SELECT tr.norek, tr.tgl_transaksi, CASE WHEN tr.TYPE = 'setoran' THEN CAST(tr.jumlah AS INTEGER) ELSE 0 END AS debet, CASE WHEN tr.TYPE = 'penarikan' THEN CAST(tr.jumlah AS INTEGER) ELSE 0 END AS kredit, tr.current_saldo AS saldo FROM transaksi tr WHERE tr.norek = :norek AND tr.tgl_transaksi >= :startDate AND tr.tgl_transaksi <= :endDate ORDER BY tr.createdAt ASC",
+      "SELECT tr.norek, tr.tgl_transaksi, CASE WHEN tr.TYPE = 'setoran' THEN CAST(tr.jumlah AS INTEGER) ELSE 0 END AS debet, CASE WHEN tr.TYPE = 'penarikan' THEN CAST(tr.jumlah AS INTEGER) ELSE 0 END AS kredit, tr.current_saldo AS saldo FROM transaksi tr WHERE tr.norek = :norek AND tr.tgl_transaksi >= :startDate AND tr.tgl_transaksi <= :endDate ORDER BY tr.created_at ASC",
       {
         type: QueryTypes.SELECT,
         replacements: {

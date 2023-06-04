@@ -9,7 +9,7 @@ export const addTeller = async (req, res) => {
       username: req.body.idTeller,
       nama_lengkap: req.body.fullName,
       nuptk: req.body.nuptk,
-      photo_dir: "files/images/profile-picture/avatar.png",
+      photo_dir: "",
     });
 
     const teller_usr = await User.create({
@@ -81,7 +81,7 @@ export const deleteTeller = async (req, res) => {
 export const getTellerId = async (req, res) => {
   try {
     let lastNumber = await db.query(
-      "SELECT username FROM teller ORDER BY createdAt DESC",
+      "SELECT username FROM teller ORDER BY created_at DESC",
       { type: QueryTypes.SELECT }
     );
 
